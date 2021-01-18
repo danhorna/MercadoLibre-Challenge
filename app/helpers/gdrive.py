@@ -37,25 +37,26 @@ class GoogleDrive():
         results = self.service.files().list(q="fullText contains 'test'",
             pageSize=10, fields="nextPageToken, files(id, name, mimeType)").execute()
         items = results.get('files', [])
-        if not items:
-            print('No files found.')
-        else:
-            print('Files:')
-            for item in items:
-                print(u'{0} ({1}) - {2}'.format(item['name'], item['id'], item['mimeType']))
+        return items
+        # if not items:
+        #     print('No files found.')
+        # else:
+        #     print('Files:')
+        #     for item in items:
+        #         print(u'{0} ({1}) - {2}'.format(item['name'], item['id'], item['mimeType']))
 
 
-def main():
-    gDrive = GoogleDrive()
-    gDrive.all_files()
+# def main():
+#     gDrive = GoogleDrive()
+#     gDrive.all_files()
     
-    # file_metadata = {
-    #     'name': 'pruebaz',
-    #     'description': 'probandingg'
-    # }
-    # file = service.files().create(body=file_metadata,
-    #                                     fields='id').execute()
-    # print('File ID: %s' % file.get('id'))
+#     # file_metadata = {
+#     #     'name': 'pruebaz',
+#     #     'description': 'probandingg'
+#     # }
+#     # file = service.files().create(body=file_metadata,
+#     #                                     fields='id').execute()
+#     # print('File ID: %s' % file.get('id'))
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
