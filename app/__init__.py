@@ -8,6 +8,6 @@ def create_app(environment="development"):
     #api
     api = Api(app)
 
-    api.add_resource(SearchInDoc, '/search-in-doc')
+    api.add_resource(SearchInDoc, '/search-in-doc/<id>')
 
     return app

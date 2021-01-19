@@ -6,19 +6,11 @@ from google.auth.transport.requests import Request
 
 class GoogleDrive():
     def __init__(self):
-        # If modifying these scopes, delete the file token.pickle.
         SCOPES = ['https://www.googleapis.com/auth/drive']
-        """Shows basic usage of the Drive v3 API.
-        Prints the names and ids of the first 10 files the user has access to.
-        """
         creds = None
-        # The file token.pickle stores the user's access and refresh tokens, and is
-        # created automatically when the authorization flow completes for the first
-        # time.
         if os.path.exists('token.pickle'):
             with open('token.pickle', 'rb') as token:
                 creds = pickle.load(token)
-        # If there are no (valid) credentials available, let the user log in.
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
@@ -26,24 +18,40 @@ class GoogleDrive():
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'credentials.json', SCOPES)
                 creds = flow.run_local_server(port=0)
-            # Save the credentials for the next run
             with open('token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
-
         self.service = build('drive', 'v3', credentials=creds)
     
     def all_files(self):
-        # Call the Drive v3 API
-        results = self.service.files().list(q="fullText contains 'test'",
-            pageSize=10, fields="nextPageToken, files(id, name, mimeType)").execute()
+        results = self.service.files().list(fields="nextPageToken, files(id, name, mimeType)").execute()
         items = results.get('files', [])
         return items
-        # if not items:
-        #     print('No files found.')
-        # else:
-        #     print('Files:')
-        #     for item in items:
-        #         print(u'{0} ({1}) - {2}'.format(item['name'], item['id'], item['mimeType']))
+    
+    def word_in_doc(self, word, fileId):
+        found = False
+        try:
+            results = self.service.files().list(q="fullText contains '{}'".format(word)).execute()
+            files = results.get('files')
+            for doc in files:
+                if doc['id'] == fileId:
+                    found = True
+            return found
+        except:
+            return found
+
+    def file_exists_by_id(self, fileId):
+        try:
+            theFile = self.service.files().get(fileId=fileId).execute()
+            return True
+        except:
+            # Nuestro files.get podria devolver diferentes codigos de errores HTTP.
+            # Como el challenge solo nos pide devolver un '404' lo hago de esta forma.
+            # Es posible extender esta funcionalidad dejando en claro cual es el error obtenido, se puede realizar con las siguientes lineas:
+            # from googleapiclient.errors import HttpError
+            # import json
+            # except HttpError as e:
+            # error_reason = json.loads(e.content)['error']['errors'][0]['message']
+            return False
 
 
 # def main():
