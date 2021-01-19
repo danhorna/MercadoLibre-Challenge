@@ -22,11 +22,6 @@ class GoogleDrive():
                 pickle.dump(creds, token)
         self.service = build('drive', 'v3', credentials=creds)
     
-    def all_files(self):
-        results = self.service.files().list(fields="nextPageToken, files(id, name, mimeType)").execute()
-        items = results.get('files', [])
-        return items
-    
     def word_in_doc(self, word, fileId):
         found = False
         try:
@@ -53,18 +48,9 @@ class GoogleDrive():
             # error_reason = json.loads(e.content)['error']['errors'][0]['message']
             return False
 
-
-# def main():
-#     gDrive = GoogleDrive()
-#     gDrive.all_files()
-    
-#     # file_metadata = {
-#     #     'name': 'pruebaz',
-#     #     'description': 'probandingg'
-#     # }
-#     # file = service.files().create(body=file_metadata,
-#     #                                     fields='id').execute()
-#     # print('File ID: %s' % file.get('id'))
-
-# if __name__ == '__main__':
-#     main()
+    def new_file(self, fileData):
+        try:
+            theFile = self.service.files().create(body=fileData, fields='id,name,description').execute()
+            return theFile
+        except:
+            return False

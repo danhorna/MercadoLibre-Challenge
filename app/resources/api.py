@@ -1,10 +1,11 @@
 from flask import jsonify
 from flask_restful import Resource, abort, request
 from app.helpers.gdrive import GoogleDrive
+from app.helpers.utils import newfile_parameters
+gDrive = GoogleDrive()
 
 class SearchInDoc(Resource):
     def get(self, id):
-        gDrive = GoogleDrive()
         word = request.args.get('word')
         fileExist = gDrive.file_exists_by_id(id)
         if not word:
@@ -17,4 +18,21 @@ class SearchInDoc(Resource):
             abort(404, message="Word not found")
         return jsonify({
             "message": "Word found in Doc!"
+        })
+
+class NewFile(Resource):
+    def post(self):
+        data = request.get_json()
+        fileData = newfile_parameters(data)
+        if not fileData:
+            abort(400, message="Bad parameters")
+        fileCreated = gDrive.new_file(fileData)
+        if not fileCreated:
+            abort(500)
+        # Al igual que en newfile_parameters(), hubiera estado bueno que la respuesta a entregar sea id-name-description y no id-titulo-descripcion
+        # Así podriamos hacer simplemente el return de fileCreated. 
+        return jsonify({
+            "id": fileCreated['id'],
+            "titulo": fileCreated['name'],
+            "descripcion": fileCreated['description']
         })
