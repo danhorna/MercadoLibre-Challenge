@@ -12,7 +12,7 @@ Esta aplicación permite simplicar ciertas funciones provistas por la API de Goo
 El proyecto creado es el que va a solicitar los permisos al Drive del usuario.
 
 ##### Una vez realizado lo anterior:
-- Clone el repositorio: 
+- Clone el repositorio: <br>
 `git clone https://github.com/danhorna/MercadoLibre-Challenge.git`
 - Almacene la credencial descargada anteriormente con el nombre "credentials.json" en el directorio ./app/static/
 
@@ -20,16 +20,16 @@ El proyecto creado es el que va a solicitar los permisos al Drive del usuario.
 ##### Existen dos formas de arrancar la aplicación:
 - **Python & pip:**
 Antes de ejecutar la aplicación debe asegurarse que posee las dependecias necesarias.
-Para agiliar este proceso, puede realizar la instalacion de todo lo necesario ejecutando el siguiente comando:
-`pip install -r requirements.txt`
-Una vez realizado esto, ejecute el siguiente comando para arrancar la app:
+Para agiliar este proceso, puede realizar la instalacion de todo lo necesario ejecutando el siguiente comando:<br>
+`pip install -r requirements.txt`<br>
+Una vez realizado esto, ejecute el siguiente comando para arrancar la app:<br>
 `python run.py`
 
 - **Docker:**
 **IMPORTANTE: **Por el momento solo funciona en sistemas Linux.
-Primeramente debe crear la imagen con el siguiente comando:
-`docker build -t nombredelaimagen .`
-Una vez creada la imagen ya puede ejecutarla con el siguiente comando:
+Primeramente debe crear la imagen con el siguiente comando:<br>
+`docker build -t nombredelaimagen .`<br>
+Una vez creada la imagen ya puede ejecutarla con el siguiente comando:<br>
 `docker run -it --net=host nombredelaimagen`
 
 ## Uso
@@ -37,8 +37,8 @@ La aplicacion funciona bajo el puerto 5000.
 Al iniciar, se le va a pedir que ingrese a una URL provista por Google para que se loguee y le conceda los permisos de su Drive a la aplicación. Una vez realizado esto, la app ya esta lista para usarse.
 ### Tenemos las siguientes funciones:
 - #### Buscar una palabra en un documento(titulo, descripcion o contenido):
-Realizando una peticion GET a la url: 
-`http://tusitio:5000/search-in-doc/PAR1?word=PAR2`
+Realizando una peticion GET a la url: <br>
+`http://tusitio:5000/search-in-doc/PAR1?word=PAR2`<br>
 *(donde PAR1 es la ID del documento y PAR2 es la palabra a buscar)*
 **Existen tres tipos de respuestas:**
  - Status: 400 : No se envió el parametro "word".
@@ -46,8 +46,8 @@ Realizando una peticion GET a la url:
  - Status: 200 : La palabra buscada se encuentra en el documento.
  
 - #### Crear un archivo con titulo y descripcion:
-Realizando una peticion POST a la url:
-`http://tusitio:5000/file`
+Realizando una peticion POST a la url:<br>
+`http://tusitio:5000/file`<br>
 Con el siguiente formato:
 ```json
 {
