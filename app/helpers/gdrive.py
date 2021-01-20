@@ -3,6 +3,18 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from googleapiclient.errors import HttpError
+
+# Nuestro peticiones podrian devolver diferentes codigos de errores HTTP.
+# Como el challenge solo nos pide devolver un '404' lo hago de esta forma.
+# Es posible extender esta funcionalidad dejando en claro cual es el error obtenido, se puede realizar con las siguientes lineas:
+# ---------------------
+# from googleapiclient.errors import HttpError
+# import json
+# except HttpError as e:
+# error_reason = json.loads(e.content)
+# ---------------------
+# Entonces en error_reason tenemos desde el codigo de error HTTP, hasta el mensaje descriptivo.
 
 class GoogleDrive():
     def __init__(self):
@@ -31,26 +43,23 @@ class GoogleDrive():
                 if doc['id'] == fileId:
                     found = True
             return found
-        except:
+        except HttpError as e:
+            # error_reason = json.loads(e.content)
             return found
 
     def file_exists_by_id(self, fileId):
         try:
+            # Podemos ampliar la aplicacion devolviendo el archivo entregado con -return theFile
             theFile = self.service.files().get(fileId=fileId).execute()
             return True
-        except:
-            # Nuestro files.get podria devolver diferentes codigos de errores HTTP.
-            # Como el challenge solo nos pide devolver un '404' lo hago de esta forma.
-            # Es posible extender esta funcionalidad dejando en claro cual es el error obtenido, se puede realizar con las siguientes lineas:
-            # from googleapiclient.errors import HttpError
-            # import json
-            # except HttpError as e:
-            # error_reason = json.loads(e.content)['error']['errors'][0]['message']
+        except HttpError as e:
+            # error_reason = json.loads(e.content)
             return False
 
     def new_file(self, fileData):
         try:
             theFile = self.service.files().create(body=fileData, fields='id,name,description').execute()
             return theFile
-        except:
+        except HttpError as e:
+            # error_reason = json.loads(e.content)
             return False

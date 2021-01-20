@@ -7,9 +7,9 @@ gDrive = GoogleDrive()
 class SearchInDoc(Resource):
     def get(self, id):
         word = request.args.get('word')
-        fileExist = gDrive.file_exists_by_id(id)
         if not word:
             abort(400, message="Parameter 'word' required")
+        fileExist = gDrive.file_exists_by_id(id)
         # Se podria poner fileExist y wordInDoc en el mismo condicional, pero no seria idóneo, ya que de no existir el archivo, haria una request innecesaria.
         if not fileExist:
             abort(404, message="File not found")
