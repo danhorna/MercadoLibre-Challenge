@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from app.resources.api import SearchInDoc, NewFile
 
-def create_app(environment="development"):
+def create_app():
     app = Flask(__name__)
 
     #api
