@@ -20,7 +20,7 @@ El proyecto creado es el que va a solicitar los permisos al Drive del usuario.
 ##### Existen dos formas de arrancar la aplicación:
 - **Python & pip:**<br>
 Antes de ejecutar la aplicación debe asegurarse que posee las dependecias necesarias.
-Para agiliar este proceso, puede realizar la instalacion de todo lo necesario ejecutando el siguiente comando:<br>
+Para agiliar este proceso, puede realizar la instalacion de todo lo necesario ejecutando el siguiente comando(recomendable hacerlo dentro de virtualenv):<br>
 `pip install -r requirements.txt`<br>
 Una vez realizado esto, ejecute el siguiente comando para arrancar la app:<br>
 `python run.py`
