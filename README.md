@@ -18,34 +18,34 @@ El proyecto creado es el que va a solicitar los permisos al Drive del usuario.
 
 ## Comenzando
 ##### Existen dos formas de arrancar la aplicación:
-- **Python & pip:**
+- **Python & pip:**<br>
 Antes de ejecutar la aplicación debe asegurarse que posee las dependecias necesarias.
 Para agiliar este proceso, puede realizar la instalacion de todo lo necesario ejecutando el siguiente comando:<br>
 `pip install -r requirements.txt`<br>
 Una vez realizado esto, ejecute el siguiente comando para arrancar la app:<br>
 `python run.py`
 
-- **Docker:**
-**IMPORTANTE: **Por el momento solo funciona en sistemas Linux.
+- **Docker:**<br>
+IMPORTANTE: Por el momento solo funciona en sistemas Linux.<br>
 Primeramente debe crear la imagen con el siguiente comando:<br>
 `docker build -t nombredelaimagen .`<br>
 Una vez creada la imagen ya puede ejecutarla con el siguiente comando:<br>
 `docker run -it --net=host nombredelaimagen`
 
 ## Uso
-La aplicacion funciona bajo el puerto 5000.
+La aplicacion funciona bajo el puerto 5000.<br>
 Al iniciar, se le va a pedir que ingrese a una URL provista por Google para que se loguee y le conceda los permisos de su Drive a la aplicación. Una vez realizado esto, la app ya esta lista para usarse.
 ### Tenemos las siguientes funciones:
-- #### Buscar una palabra en un documento(titulo, descripcion o contenido):
+#### Buscar una palabra en un documento(titulo, descripcion o contenido):
 Realizando una peticion GET a la url: <br>
 `http://tusitio:5000/search-in-doc/PAR1?word=PAR2`<br>
-*(donde PAR1 es la ID del documento y PAR2 es la palabra a buscar)*
+*(donde PAR1 es la ID del documento y PAR2 es la palabra a buscar)*<br>
 **Existen tres tipos de respuestas:**
- - Status: 400 : No se envió el parametro "word".
- - Status: 404 : El documento no existe en el Drive del usuario logueado o la palabra no se encuentra en el documento.
- - Status: 200 : La palabra buscada se encuentra en el documento.
+- Status 400: No se envió el parametro "word".
+- Status 404: El documento no existe en el Drive del usuario logueado o la palabra no se encuentra en el documento.
+- Status 200: La palabra buscada se encuentra en el documento.
  
-- #### Crear un archivo con titulo y descripcion:
+#### Crear un archivo con titulo y descripcion:
 Realizando una peticion POST a la url:<br>
 `http://tusitio:5000/file`<br>
 Con el siguiente formato:
@@ -56,9 +56,9 @@ Con el siguiente formato:
 }
 ```
 **Existen tres tipos de respuestas:**
- - Status: 500 : Si no se puede crear el archivo.
- - Status: 400 : En caso de enviar mal los parametros.
- - Status: 200 : El archivo fue creado correctamente.
+ - Status 500: Si no se puede crear el archivo.
+ - Status 400: En caso de enviar mal los parametros.
+ - Status 200: El archivo fue creado correctamente.<br>
  En este ultimo caso se recibe la informacion del archivo creado:
  ```json
 {
